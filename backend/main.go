@@ -29,6 +29,9 @@ func scoutHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Printf("Received scout request for: %s vs %s\n", req.TeamA, req.TeamB)
+
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	resp := ScoutResponse{
 		MatchupRating: "7.8/10",
 		SuggestedBan:  "Invoker",
