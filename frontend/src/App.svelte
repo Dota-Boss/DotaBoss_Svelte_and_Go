@@ -1,35 +1,24 @@
 <script>
-  let teamA = "";
-  let teamB = "";
-  let report = null;
+  let teamA = '', teamB = '', result = null;
 
-  const scout = async () => {
-    console.log("Sending:", { teamA, teamB });
-
-    const res = await fetch("http://localhost:8080/api/scout", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ teamA, teamB }),
+  async function scout() {
+    const res = await fetch('http://localhost:8080/api/scout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ teamA, teamB })
     });
-    report = await res.json();
-  };
+    result = await res.json();
+  }
 </script>
 
 <main>
-  <h1>Dota Scout</h1>
-  <form on:submit|preventDefault={scout}>
-    <input bind:value={teamA} placeholder="Your Team" />
-    <input bind:value={teamB} placeholder="Opponent Team" />
-    <button type="submit">Scout!</button>
-  </form>
+  <h1>Dota Scout Reset 🔄</h1>
+  <input bind:value={teamA} placeholder="Team A" />
+  <input bind:value={teamB} placeholder="Team B" />
+  <button on:click={scout}>Scout!</button>
 
-  {#if report}
-    <div class="report">
-      <h2>Scouting Results</h2>
-      <p><strong>Matchup Rating:</strong> {report.matchupRating}</p>
-      <p><strong>Suggested Ban:</strong> {report.suggestedBan}</p>
-    </div>
+  {#if result}
+    <p>Matchup Rating: {result.matchupRating}</p>
+    <p>Suggested Ban: {result.suggestedBan}</p>
   {/if}
 </main>
